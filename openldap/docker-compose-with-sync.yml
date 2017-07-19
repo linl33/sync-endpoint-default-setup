@@ -1,0 +1,50 @@
+version: "3.3"
+
+services: 
+  # use extends instead when it becomes available
+  # ldap-service and phpldapadmin should be the same as in docker-compose.yml
+  ldap-service:
+    image: osixia/openldap
+    networks: 
+      - ldap-network
+    env_file:
+      - ldap.env
+  phpldapadmin:
+    image: odk/phpldapadmin
+    ports:
+      - "${PHP_LDAPADMIN_PORT:-40000}:443"
+    networks: 
+      - ldap-network
+    env_file:
+      - ldap.env
+  sync:
+    image: odk/sqlserver_endpoint:ldap
+    networks: 
+      - ldap-network
+    ports:
+      - "30001:8080"
+    env_file:
+      - sync.env
+    configs:
+      - org.opendatakit.sync.ldapcert
+      # - org.opendatakit.aggregate.logging.properties
+    secrets:
+      - org.opendatakit.aggregate.security.properties
+      - org.opendatakit.aggregate.jdbc.properties
+
+networks:
+  ldap-network:
+    external: 
+      name: ${LDAP_NETWORK:-ldap-network}
+
+configs:
+  org.opendatakit.sync.ldapcert:
+    external: true
+  # org.opendatakit.aggregate.logging.properties:
+    # external: true
+
+secrets:
+  org.opendatakit.aggregate.security.properties:
+    external: true
+  org.opendatakit.aggregate.jdbc.properties:
+    external: true
