@@ -1,0 +1,56 @@
+dn: ou=groups,dc=example,dc=org
+ou: groups
+objectClass: organizationalUnit
+objectClass: top
+
+dn: ou=people,dc=example,dc=org
+ou: people
+objectClass: organizationalUnit
+objectClass: top
+
+dn: ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+ou: ${GROUP_PREFIX}
+objectClass: organizationalUnit
+objectClass: top
+
+dn: gidNumber=500,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} site_admins
+gidNumber: 500
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=501,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} administer_tables
+gidNumber: 501
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=502,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} super_user_tables
+gidNumber: 502
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=503,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} synchronize_tables
+gidNumber: 503
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=504,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} form_managers
+gidNumber: 504
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=505,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} data_viewers
+gidNumber: 505
+objectClass: posixGroup
+objectClass: top
+
+dn: gidNumber=506,ou=${GROUP_PREFIX},ou=groups,dc=example,dc=org
+cn: ${GROUP_PREFIX} data_collectors
+gidNumber: 506
+objectClass: posixGroup
+objectClass: top

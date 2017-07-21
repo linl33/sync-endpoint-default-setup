@@ -9,6 +9,10 @@
    To run OpenLDAP + phpLDAPadmin + Sync, use  
    `docker stack deploy -c docker-compose-with-sync.yml syncldap`
 
+Populate the LDAP directory with preset groups, use the following command, 
+
+`GROUP_PREFIX=group_prefix envsubst < bootstrap.ldif | docker exec -i $(docker ps --format '{{ .Names }} {{.ID }}' | grep ldap_ldap-service | grep -oE "[^ ]+$") ldapadd -x -D 'cn=admin,dc=example,dc=org' -w admin`
+
 ## Notes 
 
 The OpenLDAP container is from [osixia/openldap](https://github.com/osixia/docker-openldap)
