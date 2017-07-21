@@ -18,15 +18,15 @@ services:
     env_file:
       - ldap.env
   sync:
-    image: odk/sqlserver_endpoint:ldap
+    image: odk/sync_endpoint
     networks: 
       - ldap-network
     ports:
-      - "30001:8080"
+      - "80:8080"
     env_file:
       - sync.env
-    configs:
-      - org.opendatakit.sync.ldapcert
+    # configs:
+      # - org.opendatakit.sync.ldapcert
       # - org.opendatakit.aggregate.logging.properties
     secrets:
       - org.opendatakit.aggregate.security.properties
@@ -36,10 +36,13 @@ networks:
   ldap-network:
     external: 
       name: ${LDAP_NETWORK:-ldap-network}
+  psql-network:
+    external:
+      name: ${POSTGRES_NETWORK:-psql-network}
 
-configs:
-  org.opendatakit.sync.ldapcert:
-    external: true
+#configs:
+  # org.opendatakit.sync.ldapcert:
+    # external: true
   # org.opendatakit.aggregate.logging.properties:
     # external: true
 
