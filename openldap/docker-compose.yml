@@ -1,8 +1,6 @@
 version: "3.3"
 
 services: 
-  # use extends instead when it becomes available
-  # ldap-service and phpldapadmin should be the same as in docker-compose.yml
   ldap-service:
     image: osixia/openldap
     networks: 
