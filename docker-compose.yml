@@ -59,6 +59,7 @@ services:
       - "80:8080"
     env_file:
       - sync.env
+    # uncomment these after uncomment the ones below in the root level configs 
     # configs:
       # - org.opendatakit.sync.ldapcert
       # - org.opendatakit.aggregate.logging.properties
@@ -84,8 +85,10 @@ volumes:
   ldap-slapd.d-vol: # preserve ldap settings
 
 #configs:
+  # uncomment this to import a CA certificate
   # org.opendatakit.sync.ldapcert:
     # external: true
+  # uncomment this to override logging configuration
   # org.opendatakit.aggregate.logging.properties:
     # file: ./logging.properties
 
