@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/sh -u
 
 set -o pipefail
 
@@ -10,9 +10,9 @@ if [ ${DB_BOOTSTRAP} != true ]; then
     exit 0
 fi;
 
-# sleep 5 seconds to wait for db service to be created
+# sleep 10 seconds to wait for db service to be created
 # TODO: test for it in a loop instead
-sleep 5
+sleep 10
 
 STACK_NAME=$(docker ps -f "ID=${HOSTNAME}" --format '{{ .Names }}' | grep -oE '^[^_]*')
 DB_VAR=$(docker service inspect -f "{{if eq \"${STACK_NAME}_db\" .Spec.Name}}{{.Spec.TaskTemplate.ContainerSpec.Image}}{{end}}" $(docker service ls -q) | grep -oE '^[^:]*')
@@ -53,6 +53,18 @@ esac
 
 echo "Done"
 
-# TODO ping Sync after db bootstrap done
+echo "Checking Sync endpoint"
+
+# Wait 5 seconds for a 200 from Sync
+timeout -t 5 sh -c 'while ! echo -ne "GET / HTTP/1.1\nHost: sync\n\n" | nc -w 1 sync 8080 | grep -q "HTTP/1.1 200"; do echo '\''waiting for Sync'\''; sleep 1; done'
+
+if [ $? -eq 143 ]; then
+    echo "Timeout"
+    echo "Killing Sync endpoint"
+    # let Docker restart the container
+    docker kill $(docker ps -f "label=com.docker.swarm.service.name=${STACK_NAME}_sync" --format '{{.ID}}')
+fi;
+
+echo "Exit"
 
 exit 0

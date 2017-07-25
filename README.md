@@ -17,8 +17,6 @@ Same as [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-cont
 3. Navigate to `https://127.0.0.1:40000` and create a user, see the [LDAP](#ldap) section below for detail
 4. Sync endpoint is now running at `http://127.0.0.1`
 
-Sometimes the Sync endpoint service is started before the database service, when this happens remove the stack and recreate it. 
-
 ## Clean up
 
 1. Remove the stack with, `docker stack rm syncldap`

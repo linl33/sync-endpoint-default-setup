@@ -59,7 +59,7 @@ services:
       - "80:8080"
     env_file:
       - sync.env
-    # uncomment these after uncomment the ones below in the root level configs 
+    # uncomment these after uncommenting the ones below in the root level configs 
     # configs:
       # - org.opendatakit.sync.ldapcert
       # - org.opendatakit.aggregate.logging.properties
