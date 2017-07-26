@@ -14,7 +14,7 @@ Same as [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-cont
 1. `docker stack deploy -c docker-compose.yml syncldap` to deploy all services
 2. Navigate to `https://127.0.0.1:40000` and create a user, see the [LDAP](#ldap) section below for detail  
    Note: Your browser might warn you about invalid certificate 
-3. Sync endpoint takes around 30s to start then it will be running at `http://127.0.0.1`
+3. The Sync Endpoint will take around 30s to start then it will be running at `http://127.0.0.1`
 
 If you don't want the database bootstrap script to run, set the `DB_BOOTSTRAP` environment variable in `db.env` to `false`.
 
@@ -33,7 +33,7 @@ If you don't want the database bootstrap script to run, set the `DB_BOOTSTRAP` e
 
 The default admin account is `cn=admin,dc=example,dc=org`. The default password is `admin`, it can be changed with the `LDAP_ADMIN_PASSWORD` environment variable in `ldap.env`.
 
-The default readonly account is `cn=readonly,dc=example,dc=org`. The defualt password is `readonly`, it can be changed with the `LDAP_READONLY_USER_PASSWORD` environment variable in `ldap.env`. This account is used by Sync endpoint to retrieve user information. 
+The default readonly account is `cn=readonly,dc=example,dc=org`. The defualt password is `readonly`, it can be changed with the `LDAP_READONLY_USER_PASSWORD` environment variable in `ldap.env`. This account is used by the Sync Endpoint to retrieve user information. 
 
 #### Creating users (with phpLDAPadmin)
 
@@ -44,7 +44,7 @@ The default readonly account is `cn=readonly,dc=example,dc=org`. The defualt pas
 5. Fill out the form and click create object
 6. Refer to the section below on assigning this user to groups 
 
-Password is required for users to log in to Sync endpoint. 
+A password is required for users to log in to Sync endpoint. 
 
 The `gidNumber` attribute is used by Sync endpoint to determine a user's default group. 
 
@@ -73,7 +73,7 @@ The `gidNumber` attribute is used by Sync endpoint to determine a user's default
 
 #### Using `ldap-utils`
 
-The `ldap-service` container has `ldap-utils` installed, if you're familiar with that toolset you may use those to administer the LDAP directory as well. Use this command to access them, `docker exec $(docker ps -f "label=com.docker.swarm.service.name=${STACK_NAME}_sync" --format '{{.ID}}') <LDAPTOOL> <ARGS>`
+The `ldap-service` container has `ldap-utils` installed. If you'd prefer, you may use that toolset to administer the LDAP directory as well. Use this command to access them, `docker exec $(docker ps -f "label=com.docker.swarm.service.name=${STACK_NAME}_sync" --format '{{.ID}}') <LDAPTOOL> <ARGS>`
 
 ## Notes
 
