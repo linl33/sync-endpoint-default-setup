@@ -1,0 +1,99 @@
+version: "3.3"
+
+services: 
+  ldap-service:
+    image: odk/openldap
+    deploy:
+      replicas: 1
+    networks: 
+      - ldap-network
+    volumes:
+      - ldap-vol:/var/lib/ldap
+      - ldap-slapd.d-vol:/etc/ldap/slapd.d
+    env_file:
+      - ldap.env
+  phpldapadmin:
+    image: odk/phpldapadmin
+    deploy:
+      replicas: 1
+    ports:
+      - "${PHP_LDAPADMIN_PORT:-40000}:443"
+    networks: 
+      - ldap-network
+    env_file:
+      - ldap.env
+  db:
+    image: postgres:9.6
+    deploy:
+      replicas: 1
+    networks:
+      - db-network
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+    env_file:
+      - db.env
+  db-bootstrap:
+    image: odk/db-bootstrap
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - db-network
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    env_file:
+      - db.env
+      - sync.env
+  sync:
+    image: odk/sync_endpoint
+    networks: 
+      - ldap-network
+      - db-network
+    ports:
+      - "80:8080"
+    env_file:
+      - sync.env
+    # uncomment these after uncommenting the ones below in the root level configs 
+    # configs:
+      # - org.opendatakit.sync.ldapcert
+      # - org.opendatakit.aggregate.logging.properties
+    secrets:
+      - org.opendatakit.aggregate.security.properties
+      - org.opendatakit.aggregate.jdbc.properties
+
+networks:
+  ldap-network:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
+    internal: true
+  db-network:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
+    internal: true
+
+volumes:
+  db-vol: # preserve db
+  ldap-vol: # preserve ldap db
+  ldap-slapd.d-vol: # preserve ldap settings
+
+#configs:
+  # uncomment this to import a CA certificate
+  # org.opendatakit.sync.ldapcert:
+    # external: true
+  # uncomment this to override logging configuration
+  # org.opendatakit.aggregate.logging.properties:
+    # file: ./logging.properties
+
+secrets:
+  org.opendatakit.aggregate.security.properties:
+    file: ./security.properties
+  org.opendatakit.aggregate.jdbc.properties:
+    file: ./jdbc.properties
