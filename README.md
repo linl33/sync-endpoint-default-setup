@@ -51,8 +51,8 @@ The `gidNumber` attribute is used by Sync endpoint to determine a user's default
 #### Creating groups (with phpLDAPadmin)
 
 1. Click `login` on the right and login as admin
-2. Expand the tree view on the right until you see `ou=default_prefix`
-3. Click on `ou=people` and choose `Create a child entry`
+2. Expand the tree view on the right until you see `ou=groups`
+3. Click on `ou=default_prefix` and choose `Create a child entry`
 4. Choose the `Generic: Posix Group` template
 5. Fill out the form and click create object  
    Note: the group name must start with the group prefix, in this case the group prefix is `default_prefix`, e.g. `default_prefix my-new-group`
