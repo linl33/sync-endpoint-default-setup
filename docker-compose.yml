@@ -66,6 +66,8 @@ services:
     secrets:
       - org.opendatakit.aggregate.security.properties
       - org.opendatakit.aggregate.jdbc.properties
+      # - source: org.opendatakit.sync.https-jks
+      #   target: odksync-tomcat.keystore
 
 networks:
   ldap-network:
@@ -97,3 +99,5 @@ secrets:
     file: ./security.properties
   org.opendatakit.aggregate.jdbc.properties:
     file: ./jdbc.properties
+  # org.opendatakit.sync.https-jks:
+  #   external: true
