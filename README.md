@@ -5,9 +5,10 @@ Same as [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-cont
 ## Build
 
 1. Follow instructions on [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-containers) to build `odk/sync_endpoint`
-2. Build `db-bootstrap` with `docker build -t odk/db-bootstrap db-bootstrap`
-3. Build `openldap` with `docker build -t odk/openldap openldap`
-4. Build `phpldapadmin` with `docker build -t odk/phpldapadmin phpldapadmin`
+2. Follow instructions on https://github.com/jbeorse/odk-hamsterball-java to build `odk/sync-web-ui`
+3. Build `db-bootstrap` with `docker build -t odk/db-bootstrap db-bootstrap`
+4. Build `openldap` with `docker build -t odk/openldap openldap`
+5. Build `phpldapadmin` with `docker build -t odk/phpldapadmin phpldapadmin`
 
 ## Run
 
@@ -25,9 +26,9 @@ If you don't want the database bootstrap script to run, set the `DB_BOOTSTRAP` e
 
 ## Configuration
 
-`ldap.env`, `sync.env`, `db.env`, `jdbc.properties`, `security.properties`, and `docker-compose.yml` hold configuration for different parts. Refer to the individual files for options. 
+`config` and `docker-compose.yml` hold configuration for different parts. Refer to the individual files for options. 
 
-`jdbc.properties` and `docker-compose.yml` are configured to use PostgreSQL by default but MySQL is also supported. 
+`jdbc.properties` and `docker-compose.yml` are configured to use PostgreSQL by default but MySQL and MSSQL are also supported. 
 
 ## LDAP
 
