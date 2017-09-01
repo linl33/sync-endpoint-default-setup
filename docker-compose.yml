@@ -43,6 +43,7 @@ services:
           - node.role == manager
     networks:
       - db-network
+      - sync-network
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -55,8 +56,7 @@ services:
     networks: 
       - ldap-network
       - db-network
-    ports:
-      - "80:8080"
+      - sync-network
     env_file:
       - sync.env
     # uncomment these after uncommenting the ones below in the root level configs 
@@ -66,8 +66,29 @@ services:
     secrets:
       - org.opendatakit.aggregate.security.properties
       - org.opendatakit.aggregate.jdbc.properties
-      # - source: org.opendatakit.sync.https-jks
-      #   target: odksync-tomcat.keystore
+  web-ui:
+    image: odk/sync-web-ui
+    networks:
+      - sync-network
+    hostname: web-ui
+    configs:
+      - org.opendatakit.sync-web-ui.application.properties
+  nginx:
+    image: nginx:1.13
+    networks:
+      - sync-network
+    ports:
+      - "80:80"
+      - "443:443"
+    configs:
+      - source: com.nginx.sync-endpoint.conf
+        target: /etc/nginx/conf.d/sync-endpoint.conf
+      - source: com.nginx.proxy_buffer.conf
+        target: /etc/nginx/conf.d/proxy_buffer.conf
+    # uncomment these after uncommenting the ones below in the root level
+      # - com.nginx.ssl_certificate
+    # secrets:
+      # - com.nginx.ssl_certificate_key
 
 networks:
   ldap-network:
@@ -80,24 +101,40 @@ networks:
     driver_opts:
       encrypted: ""
     internal: true
+  sync-network:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
+    internal: true
 
 volumes:
   db-vol: # preserve db
+  # these 2 need to be removed together
   ldap-vol: # preserve ldap db
   ldap-slapd.d-vol: # preserve ldap settings
 
-#configs:
-  # uncomment this to import a CA certificate
+configs:
+  # uncomment this to import a CA certificate into the Sync service
   # org.opendatakit.sync.ldapcert:
     # external: true
   # uncomment this to override logging configuration
   # org.opendatakit.aggregate.logging.properties:
     # file: ./logging.properties
+  org.opendatakit.sync-web-ui.application.properties:
+    file: ./config/web-ui/application.properties
+  com.nginx.sync-endpoint.conf:
+    file: ./config/nginx/sync-endpoint-http.conf
+  com.nginx.proxy_buffer.conf:
+    file: ./config/nginx/proxy_buffer.conf
+  # com.nginx.ssl_certificate:
+    # external:
+      # name: NAME OF CONFIG
 
 secrets:
   org.opendatakit.aggregate.security.properties:
-    file: ./security.properties
+    file: ./config/sync-endpoint/security.properties
   org.opendatakit.aggregate.jdbc.properties:
-    file: ./jdbc.properties
-  # org.opendatakit.sync.https-jks:
-  #   external: true
+    file: ./config/sync-endpoint/jdbc.properties
+  # com.nginx.ssl_certificate_key:
+    # external: 
+      # name: NAME OF SECRET
