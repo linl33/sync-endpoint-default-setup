@@ -1,11 +1,11 @@
 ## Prerequisites
 
-Same as [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-containers)
+Same as [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-containers)
 
 ## Build
 
-1. Follow instructions on [sync-endpoint-containers](https://github.com/jbeorse/sync-endpoint-containers) to build `odk/sync_endpoint`
-2. Follow instructions on https://github.com/jbeorse/odk-hamsterball-java to build `odk/sync-web-ui`
+1. Follow instructions on [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-containers) to build `odk/sync_endpoint`
+2. Follow instructions on https://github.com/opendatakit/sync-endpoint-web-ui to build `odk/sync-web-ui`
 3. Build `db-bootstrap` with `docker build -t odk/db-bootstrap db-bootstrap`
 4. Build `openldap` with `docker build -t odk/openldap openldap`
 5. Build `phpldapadmin` with `docker build -t odk/phpldapadmin phpldapadmin`
