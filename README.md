@@ -76,6 +76,15 @@ The `gidNumber` attribute is used by Sync endpoint to determine a user's default
 
 The `ldap-service` container has `ldap-utils` installed. If you'd prefer, you may use that toolset to administer the LDAP directory as well. Use this command to access them, `docker exec $(docker ps -f "label=com.docker.swarm.service.name=${STACK_NAME}_sync" --format '{{.ID}}') <LDAPTOOL> <ARGS>`
 
+## **Warnings**
+
+**Note: this is experimental software**
+
+ - The database and the LDAP directory set up here are meant only for testing and evaluation. When running in production you should configure a production ready database and a production ready LDAP directory. Using the pre-configured database and directory in production can result in poor performance and degraded availabiltiy.
+ - You should refer to Docker Swarm documentation on running a production ready Swarm.
+ - We recommend that you host Sync Endpoint on a commercial cloud provider (e.g. Google Cloud Platform, Amazon AWS, Microsoft Azure, etc.) If you want to host Sync Endpoint on premise, you should consult your System Administrator for appropriate hardware.
+ - Always make regular backups and test your backups to prevent potential data loss. 
+
 ## Notes
 
 The OpenLDAP container is from [osixia/openldap](https://github.com/osixia/docker-openldap)
