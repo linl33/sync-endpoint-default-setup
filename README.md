@@ -84,6 +84,8 @@ The `ldap-service` container has `ldap-utils` installed. If you'd prefer, you ma
  - You should refer to Docker Swarm documentation on running a production ready Swarm.
  - We recommend that you host Sync Endpoint on a commercial cloud provider (e.g. Google Cloud Platform, Amazon AWS, Microsoft Azure, etc.) If you want to host Sync Endpoint on premise, you should consult your System Administrator for appropriate hardware.
  - Always make regular backups and test your backups to prevent potential data loss. 
+ 
+Details on how to swap out the database or LDAP directory can be found [here](http://opendatakit-dev.cs.washington.edu/2_0_tools/release/current_release/cloud_endpoints).
 
 ## Notes
 
