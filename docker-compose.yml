@@ -82,7 +82,7 @@ services:
       - "443:443"
     configs:
       - source: com.nginx.sync-endpoint.conf
-        target: /etc/nginx/conf.d/sync-endpoint.conf
+        target: /etc/nginx/conf.d/default.conf
       - source: com.nginx.proxy_buffer.conf
         target: /etc/nginx/conf.d/proxy_buffer.conf
     # uncomment these after uncommenting the ones below in the root level
