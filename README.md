@@ -13,7 +13,7 @@ Same as [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-
 ## Run
 
 1. `docker stack deploy -c docker-compose.yml syncldap` to deploy all services
-2. Navigate to `https://127.0.0.1:40000` (or whichever IP address and port you set up when you initialized your docker swarm) and create a user. See the [LDAP](#ldap) section below for detail  
+2. Navigate to `https://127.0.0.1:40000` (or whichever IP address and port you set up when you initialized your Docker stack) and create a user. See the [LDAP](#ldap) section below for detail  
    Note: Your browser might warn you about invalid certificate 
 3. The Sync Endpoint will take around 30s to start then it will be running at `http://127.0.0.1`
 
