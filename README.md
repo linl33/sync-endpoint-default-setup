@@ -13,7 +13,7 @@ Same as [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-
 ## Run
 
 1. `docker stack deploy -c docker-compose.yml syncldap` to deploy all services
-2. Navigate to `https://127.0.0.1:40000` and create a user, see the [LDAP](#ldap) section below for detail  
+2. Navigate to `https://127.0.0.1:40000` (or whichever IP address and port you set up when you initialized your docker swarm) and create a user. See the [LDAP](#ldap) section below for detail  
    Note: Your browser might warn you about invalid certificate 
 3. The Sync Endpoint will take around 30s to start then it will be running at `http://127.0.0.1`
 
@@ -38,8 +38,8 @@ The default readonly account is `cn=readonly,dc=example,dc=org`. The defualt pas
 
 #### Creating users (with phpLDAPadmin)
 
-1. Click `login` on the right and login as admin
-2. Expand the tree view on the right until you see `ou=people`
+1. Click `login` on the left and login as admin
+2. Expand the tree view on the left until you see `ou=people`
 3. Click on `ou=people` and choose `Create a child entry`
 4. Choose the `Generic: User Account` template
 5. Fill out the form and click create object
@@ -51,8 +51,8 @@ The `gidNumber` attribute is used by Sync endpoint to determine a user's default
 
 #### Creating groups (with phpLDAPadmin)
 
-1. Click `login` on the right and login as admin
-2. Expand the tree view on the right until you see `ou=groups`
+1. Click `login` on the left and login as admin
+2. Expand the tree view on the left until you see `ou=groups`
 3. Click on `ou=default_prefix` and choose `Create a child entry`
 4. Choose the `Generic: Posix Group` template
 5. Fill out the form and click create object  
@@ -60,8 +60,8 @@ The `gidNumber` attribute is used by Sync endpoint to determine a user's default
 
 #### Assigning users to groups (with phpLDAPadmin)
 
-1. Click `login` on the right and login as admin
-2. Expand the tree view on the right until you see `ou=default_prefix`, then expand `ou=default_prefix`
+1. Click `login` on the left and login as admin
+2. Expand the tree view on the left until you see `ou=default_prefix`, then expand `ou=default_prefix`
 3. This list is all the groups under `ou=default_prefix`
 4. Click on the group that you want to assign users to 
 5. If the `memberUid` section is not present, 
