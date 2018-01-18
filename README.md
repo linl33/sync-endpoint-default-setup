@@ -82,9 +82,15 @@ The `ldap-service` container has `ldap-utils` installed. If you'd prefer, you ma
 
 See [here](http://opendatakit-dev.cs.washington.edu/2_0_tools/release/current_release/cloud_endpoints).
 
-## **Warnings**
+#### Managing Identity through DHIS2 
 
-**Note: this is experimental software**
+1. Modify [config/sync-endpoint/security.properties](config/sync-endpoint/security.properties) to fill in the `Settings for DHIS2 Authentication` section
+2. Set `security.server.authenticationMethod` in `security.properties` to `dhis2`
+3. [OPTIONAL] Remove OpenLDAP and phpLDAPadmin from [docker-compose.yml](docker-compose.yml)
+
+After restarting your Sync Endpoint server, you will be able to login to Sync Endpoint using the same credentials you use for your DHIS2 server. DHIS2 organization units and groups, with membership preserved, will be converted to Sync Endpoint groups and accesible through the Sync Endpoint REST API. 
+
+## **Warnings**
 
  - The database and the LDAP directory set up here are meant only for testing and evaluation. When running in production you should configure a production ready database and a production ready LDAP directory. Using the pre-configured database and directory in production can result in poor performance and degraded availabiltiy.
  - You should refer to Docker Swarm documentation on running a production ready Swarm.
