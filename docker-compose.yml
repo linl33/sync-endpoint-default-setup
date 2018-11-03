@@ -52,7 +52,7 @@ services:
       - db.env
       - sync.env
   sync:
-    image: odk/sync_endpoint
+    image: odk/sync-endpoint
     networks: 
       - ldap-network
       - db-network
