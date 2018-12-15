@@ -4,7 +4,7 @@ Same as [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-
 
 ## Build
 
-1. Follow instructions on [sync-endpoint](https://github.com/opendatakit/sync-endpoint) to build `odk/sync_endpoint`
+1. Follow instructions on [sync-endpoint](https://github.com/opendatakit/sync-endpoint) to build `odk/sync-endpoint`
 2. Follow instructions on https://github.com/opendatakit/sync-endpoint-web-ui to build `odk/sync-web-ui`
 3. Build `db-bootstrap` with `docker build -t odk/db-bootstrap db-bootstrap`
 4. Build `openldap` with `docker build -t odk/openldap openldap`
