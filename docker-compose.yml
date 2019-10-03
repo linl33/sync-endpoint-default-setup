@@ -74,7 +74,7 @@ services:
     configs:
       - org.opendatakit.sync-web-ui.application.properties
   nginx:
-    image: nginx:1.13
+    image: nginx:mainline
     networks:
       - sync-network
     ports:
