@@ -88,10 +88,6 @@ services:
         target: /etc/nginx/conf/sync-endpoint-locations.conf
       - source: com.nginx.proxy_buffer.conf
         target: /etc/nginx/conf.d/proxy_buffer.conf
-    # uncomment these after uncommenting the ones below in the root level
-      # - com.nginx.ssl_certificate
-    # secrets:
-      # - com.nginx.ssl_certificate_key
 
 networks:
   ldap-network:
@@ -131,15 +127,9 @@ configs:
     file: ./config/nginx/sync-endpoint-locations.conf
   com.nginx.proxy_buffer.conf:
     file: ./config/nginx/proxy_buffer.conf
-  # com.nginx.ssl_certificate:
-    # external:
-      # name: NAME OF CONFIG
 
 secrets:
   org.opendatakit.aggregate.security.properties:
     file: ./config/sync-endpoint/security.properties
   org.opendatakit.aggregate.jdbc.properties:
     file: ./config/sync-endpoint/jdbc.properties
-  # com.nginx.ssl_certificate_key:
-    # external: 
-      # name: NAME OF SECRET
