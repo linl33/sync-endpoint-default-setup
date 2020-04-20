@@ -49,8 +49,11 @@ def run_interactive_config():
         if insecure.lower().strip()[0] != "y":
             raise RuntimeError("HTTPS is currently required to run a secure public server. Please restart and select to enforce HTTPS")
 
-    print("Enforcing https:", enforce_https)
     if enforce_https == "y":
+        enforce_https = True
+
+    print("Enforcing https:", enforce_https)
+    if enforce_https:
         print("Please provide an admin email for security updates with HTTPS registration")
         input_email = input("admin email [({})]:".format(email))
 
@@ -79,6 +82,8 @@ def run_interactive_config():
 
         print("Attempting to save updated https configuration")
         write_to_env_file(env_file_location, domain, email)
+
+    return enforce_https
 
 
 def write_to_env_file(filepath, domain_name, email):
@@ -112,5 +117,28 @@ def parse_env_file(filepath):
     return (domain,email)
 
 
+def run_docker_builds():
+    os.system("docker build --pull -t odk/sync-web-ui https://github.com/odk-x/sync-endpoint-web-ui.git")
+    os.system("docker build --pull -t odk/db-bootstrap db-bootstrap")
+    os.system("docker build --pull -t odk/openldap openldap")
+    os.system("docker build --pull -t odk/phpldapadmin phpldapadmin")
+
+
+def run_sync_endpoint_build():
+    os.system("git clone https://github.com/odk-x/sync-endpoint ; \
+               cd sync-endpoint ; \
+               mvn clean install -DskipTests")
+
+
+def deploy_stack(use_https):
+    if use_https:
+        os.system("docker stack deploy -c docker-compose.yml -c docker-compose-https.yml syncldap")
+    else:
+        os.system("docker stack deploy -c docker-compose.yml syncldap")
+
+
 if __name__ == "__main__":
-    run_interactive_config()
+    https = run_interactive_config()
+    run_docker_builds()
+    run_sync_endpoint_build()
+    deploy_stack(https)
