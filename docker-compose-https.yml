@@ -48,14 +48,15 @@ services:
     entrypoint: /bin/sh -c "trap exit TERM; while :;\
       do \
       echo $$HTTPS_ADMIN_EMAIL; \
-      certbot renew --webroot -w /var/www/certbot \
+      certbot certonly --webroot -w /var/www/certbot \
       --email $$HTTPS_ADMIN_EMAIL \
       -d $$HTTPS_DOMAIN \
       --rsa-key-size 4096 \
       --agree-tos \
-      --cert-name production \
+      --cert-name renewal-staging \
       --keep-until-expiring \
-      --non-interactive; \
+      --non-interactive && \
+      cp /etc/letsencrypt/live/renewal-staging/*.pem /etc/letsencrypt/live/production; \
       sleep 11h & wait $${!};\
       done; \
       "
