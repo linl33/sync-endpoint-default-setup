@@ -38,11 +38,15 @@ def run_interactive_config():
         domain = input_domain
     
     print("")
-    print("Please input the default password to use for ldap admin")
-    default_ldap_pwd = input("Default ldap admin password:")
+    use_custom_password = input("Do you want to use a custom LDAP administration password (y/N)?")
+    if use_custom_password == "y":
+        print("")
+        print("Please input the password to use for ldap admin")
+        default_ldap_pwd = input("Ldap admin password:")
 
-    if default_ldap_pwd != "":
-        replaceInFile("ldap.env", r"^\s*LDAP_ADMIN_PASSWORD=.*$", "LDAP_ADMIN_PASSWORD={}".format(default_ldap_pwd))
+        if default_ldap_pwd != "":
+            replaceInFile("ldap.env", r"^\s*LDAP_ADMIN_PASSWORD=.*$", "LDAP_ADMIN_PASSWORD={}".format(default_ldap_pwd))
+            print("Password set to: {}".format(default_ldap_pwd))            
 
     while True:
         print("Would you like to enforce HTTPS? We recommend yes.")
