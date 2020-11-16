@@ -6,9 +6,14 @@ This is a first attempt at a proof of concept script, and has no
 support for internationalization.
 
 """
-
 import time
 import os
+import fileinput
+import sys
+import re
+from tempfile import mkstemp
+from shutil import move, copymode
+from os import fdopen, remove
 
 def run_interactive_config():
     env_file_location = os.path.join(os.path.dirname(__file__), "config", "https.env")
@@ -31,6 +36,17 @@ def run_interactive_config():
 
     if input_domain != "":
         domain = input_domain
+    
+    print("")
+    use_custom_password = input("Do you want to use a custom LDAP administration password (y/N)?")
+    if use_custom_password == "y":
+        print("")
+        print("Please input the password to use for ldap admin")
+        default_ldap_pwd = input("Ldap admin password:")
+
+        if default_ldap_pwd != "":
+            replaceInFile("ldap.env", r"^\s*LDAP_ADMIN_PASSWORD=.*$", "LDAP_ADMIN_PASSWORD={}".format(default_ldap_pwd))
+            print("Password set to: {}".format(default_ldap_pwd))            
 
     while True:
         print("Would you like to enforce HTTPS? We recommend yes.")
@@ -85,6 +101,16 @@ def run_interactive_config():
 
     return enforce_https
 
+
+def replaceInFile(file_path, pattern, subst):
+    fh, abs_path = mkstemp()
+    with fdopen(fh,'w') as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                new_file.write(re.sub(pattern, subst, line))
+    copymode(file_path, abs_path)
+    remove(file_path)
+    move(abs_path, file_path)
 
 def write_to_env_file(filepath, domain_name, email):
     """A janky in-memory file write.
