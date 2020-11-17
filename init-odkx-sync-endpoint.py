@@ -153,7 +153,7 @@ def run_docker_builds():
 def run_sync_endpoint_build():
     os.system("git clone https://github.com/odk-x/sync-endpoint ; \
                cd sync-endpoint ; \
-               mvn clean install -DskipTests")
+               mvn -pl sync-endpoint-war,sync-endpoint-swarm,sync-endpoint-common-dependencies clean install -DskipTests")
 
 
 def deploy_stack(use_https):
