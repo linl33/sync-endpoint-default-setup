@@ -1,9 +1,11 @@
 ## Prerequisites
-
-Same as [sync-endpoint-containers](https://github.com/opendatakit/sync-endpoint-containers)
+- Git
+- Docker (with swarm mode enabled)
+- Maven
+- (optional) Python3 and Certbot (These are needed if you are planning on using the [init-odkx-sync-endpoint.py](#Ubuntu-18.04-Example-installation) script and SSL certificates from letsencrypt)
 
 ## Build
-
+Use the included init-odkx-sync-endpoint.py script [(see example installation on Ubuntu)](#Ubuntu-18.04-Example-installation) or follow the instructions below:
 1. Follow instructions on [sync-endpoint](https://github.com/opendatakit/sync-endpoint) to build `odk/sync-endpoint`
 2. Follow instructions on https://github.com/opendatakit/sync-endpoint-web-ui to build `odk/sync-web-ui`
 3. Build `db-bootstrap` with `docker build -t odk/db-bootstrap db-bootstrap`
@@ -106,3 +108,20 @@ The OpenLDAP container is from [osixia/openldap](https://github.com/osixia/docke
 The phpLDAPadmin container is from [osixia/phpldapadmin](https://github.com/osixia/docker-phpLDAPadmin)
 
 Refer to their respecitve documentations for usage information. 
+
+## Ubuntu 18.04 Example installation
+## To get setup on a clean installation of Ubuntu 18.04 run the following commands;
+```
+user@localhost:~/# apt update
+user@localhost:~/# apt install docker.io
+user@localhost:~/# docker swarm init
+user@localhost:~/# apt install maven
+user@localhost:~/# apt install certbot
+user@localhost:~/# git clone https://github.com/odk-x/sync-endpoint-default-setup.git odkx
+user@localhost:~/# cd odkx
+user@localhost:~/odkx# python3 init-odkx-sync-endpoint.py
+ ```
+... then follow the on-screen instructions.
+
+When everything has been built and started, you can open a browser and go to https://<your_domain>:40000 to access the LDAP admin interface.
+Log in with username = **cn=admin,dc=example,dc=org** and the password you defined during the intialization script. Then you can [create the ODK-X Sync Endpoint users according to the documentation](https://docs.odk-x.org/sync-endpoint/#creating-users).
