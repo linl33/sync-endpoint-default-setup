@@ -8,8 +8,6 @@ support for internationalization.
 """
 import time
 import os
-import fileinput
-import sys
 import re
 from tempfile import mkstemp
 from shutil import move, copymode
@@ -36,7 +34,7 @@ def run_interactive_config():
 
     if input_domain != "":
         domain = input_domain
-    
+
     print("")
     use_custom_password = input("Do you want to use a custom LDAP administration password (y/N)?")
     if use_custom_password == "y":
@@ -46,7 +44,7 @@ def run_interactive_config():
 
         if default_ldap_pwd != "":
             replaceInFile("ldap.env", r"^\s*LDAP_ADMIN_PASSWORD=.*$", "LDAP_ADMIN_PASSWORD={}".format(default_ldap_pwd))
-            print("Password set to: {}".format(default_ldap_pwd))            
+            print("Password set to: {}".format(default_ldap_pwd))
 
     while True:
         print("Would you like to enforce HTTPS? We recommend yes.")
@@ -65,8 +63,7 @@ def run_interactive_config():
         if insecure.lower().strip()[0] != "y":
             raise RuntimeError("HTTPS is currently required to run a secure public server. Please restart and select to enforce HTTPS")
 
-    if enforce_https == "y":
-        enforce_https = True
+    enforce_https = enforce_https == "y"
 
     print("Enforcing https:", enforce_https)
     if enforce_https:
